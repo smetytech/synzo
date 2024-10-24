@@ -1,12 +1,16 @@
-// See https://svelte.dev/docs/kit/types#app
-// for information about these interfaces
 declare global {
 	namespace App {
-		// interface Error {}
-		// interface Locals {}
-		// interface PageData {}
-		// interface PageState {}
-		// interface Platform {}
+		interface Locals {
+			safeGetSession: () => Promise<{ session: Session | null; user: User | null }>;
+			supabase: SupabaseClient;
+			session: Session | null;
+			user: User | null;
+		}
+		interface PageData {
+			supabase: SupabaseClient;
+			session: Session | null;
+			user: User | null;
+		}
 	}
 }
 
