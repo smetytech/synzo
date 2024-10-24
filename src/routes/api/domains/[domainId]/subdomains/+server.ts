@@ -2,9 +2,7 @@ import { json } from '@sveltejs/kit';
 import type { RequestHandler } from '@sveltejs/kit';
 
 // API endpoint handler
-export const GET: RequestHandler = async ({ locals: { supabase }, url, params }) => {
-  const domainId = url.searchParams.get('domainId');
-  console.log(domainId);
+export const GET: RequestHandler = async ({ locals: { supabase },  params }) => {
   console.log(params);
   try {
     // Query the 'domains' table to get all domains

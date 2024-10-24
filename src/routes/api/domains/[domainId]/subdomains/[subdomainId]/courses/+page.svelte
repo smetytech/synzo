@@ -1,17 +1,14 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import type { ICourse } from "$lib/interfaces/course.interface";
-  let courses: ICourse[] = $state([]);
-
-  // Fetch the courses from the API route
-  const fetchcourses = async () => {
-    const res = await fetch('/api/courses');
-    courses = await res.json();
-  };
+	import { fetchCourses } from 'src/lib/controllers/courses.controller';
+  
+  let courses: ICourse[] = [];
+  $: courses;
 
   // Load the courses when the component mounts
   onMount(() => {
-    fetchcourses();
+    fetchCourses();
   });
 </script>
 

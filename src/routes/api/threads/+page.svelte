@@ -1,15 +1,12 @@
 <script lang="ts">
   import { onMount } from 'svelte';
 	import type { IThread } from "$lib/interfaces/thread.interface";
+	import { fetchTreads } from 'src/lib/controllers/thread.controller';
 
-  let threads: IThread[] = $state([]);
-
+  let threads: IThread[] = [];
+  $: threads;
   // Fetch the threads from the API route
-  const fetchTreads = async () => {
-    const res = await fetch('/api/threads');
-    threads = await res.json();
-  };
-
+  
   // Load the threads when the component mounts
   onMount(() => {
     fetchTreads();

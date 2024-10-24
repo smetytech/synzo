@@ -8,7 +8,7 @@ export const GET: RequestHandler = async ({ locals: { supabase }, url }) => {
     // Query the 'domains' table to get all domains
     const { data, error } = await supabase
       .from('courses')
-      .select('id, content, subdomain_id')
+      .select('id, content')
       .eq("subdomain_id", subdomainId);
 
     if (error) {
