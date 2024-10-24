@@ -28,6 +28,12 @@
 
 		isLoading = false;
 	}
+
+	let expandedNoteId: number | null = null;
+
+	function toggleExpandedNote(noteId: number) {
+		expandedNoteId = expandedNoteId === noteId ? null : noteId;
+	}
 </script>
 
 <div class="sticky top-20 min-w-72 max-h-[calc(100dvh-5rem)] bg-zinc-900">
@@ -45,10 +51,20 @@
 			</div>
 		{:else}
 			{#each notes as note}
-				<div class="p-3 bg-zinc-800/50 text-muted-foreground rounded-xl">
-					{note.content}
+				<!-- svelte-ignore a11y_click_events_have_key_events -->
+				<!-- svelte-ignore a11y_no_static_element_interactions -->
+				<div
+					class="p-3 bg-zinc-800/50 text-muted-foreground rounded-xl cursor-pointer"
+					on:click={() => toggleExpandedNote(note.id)}
+				>
+					{#if expandedNoteId === note.id}
+						{note.content}
+					{:else}
+						{note.content.length > 50 ? `${note.content.slice(0, 47)}...` : note.content}
+					{/if}
 				</div>
 			{/each}
 		{/if}
 	</div>
 </div>
+
