@@ -1,7 +1,7 @@
 import { json } from '@sveltejs/kit';
 
-export async function GET({ locals: { supabase }, request }) {
-	const { subdomainId } = await request.json();
+export async function GET({ locals: { supabase }, url }) {
+	const subdomainId = url.searchParams.get('subdomainId');
 
 	if (!subdomainId) {
 		return json('Subdomain ID is required.', { status: 400 });
@@ -9,7 +9,7 @@ export async function GET({ locals: { supabase }, request }) {
 
 	const { data, error } = await supabase
 		.from('courses')
-		.select('id, title, content, author')
+		.select('id, title')
 		.eq('subdomain_id', subdomainId);
 
 	if (error) {

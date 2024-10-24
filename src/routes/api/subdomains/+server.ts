@@ -1,7 +1,7 @@
 import { json } from '@sveltejs/kit';
 
-export async function GET({ locals: { supabase }, request }) {
-	const { domainId } = await request.json();
+export async function GET({ locals: { supabase }, url }) {
+	const domainId = url.searchParams.get('domainId');
 
 	if (!domainId) {
 		return json('Domain ID is required.', { status: 400 });
