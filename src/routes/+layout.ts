@@ -1,5 +1,6 @@
 import { PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_URL } from '$env/static/public';
 import { createBrowserClient, createServerClient, isBrowser } from '@supabase/ssr';
+import type { User } from '@supabase/supabase-js';
 
 export async function load({ data, depends, fetch }) {
 	depends('supabase:auth');
@@ -23,5 +24,5 @@ export async function load({ data, depends, fetch }) {
 		data: { user }
 	} = await supabase.auth.getUser();
 
-	return { session, supabase, user };
+	return { session, supabase, user: user as User };
 }
