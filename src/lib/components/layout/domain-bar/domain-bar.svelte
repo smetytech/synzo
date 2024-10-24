@@ -52,7 +52,7 @@
 		<Tooltip.Root openDelay={0}>
 			<Tooltip.Trigger asChild let:builder>
 				<Button
-					class="{$page.route.id?.startsWith('/threads')
+					class="{$page.route.id?.startsWith('/messages')
 						? 'text-background rounded-2xl bg-foreground'
 						: 'rounded-[2rem] bg-muted'} h-14 w-14 shrink-0 hover:rounded-2xl hover:bg-foreground hover:text-background transition-all"
 					variant="ghost"
@@ -63,7 +63,7 @@
 					<MessageCircle />
 				</Button>
 			</Tooltip.Trigger>
-			<Tooltip.Content side="right" sideOffset={8}>Threads</Tooltip.Content>
+			<Tooltip.Content side="right" sideOffset={8}>Messages</Tooltip.Content>
 		</Tooltip.Root>
 
 		<Separator class="rounded-full h-0.5" />
