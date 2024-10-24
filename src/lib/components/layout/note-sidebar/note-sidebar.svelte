@@ -30,14 +30,14 @@
 	}
 </script>
 
-<div class="sticky top-20 min-w-72 max-h-[calc(100dvh-5rem)] bg-zinc-900">
+<div class="sticky top-20 min-w-72 flex flex-col max-h-[calc(100dvh-5rem)] bg-zinc-900">
 	<div class="p-5">
 		<span class="text-lg font-semibold">Notes</span>
 	</div>
 
 	<Separator />
 
-	<div class="p-5 space-y-2 overflow-y-auto h-full">
+	<div class="p-5 space-y-2 overflow-y-auto grow">
 		{#if isLoading}
 			<div class="flex items-center text-muted-foreground gap-2">
 				<Loader class="h-5 w-5 animate-spin" />
