@@ -1,3 +1,3 @@
 <svelte:head>
-	<title>Synzo</title>
+	<title>Synzo.</title>
 </svelte:head>
