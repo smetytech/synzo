@@ -1,27 +1,123 @@
 <script lang="ts">
-	import { generateTest } from "$lib/controllers/llm.controller";
-	import { onMount } from "svelte";
+	import { onMount } from 'svelte';
+	import { Button } from '$lib/components/ui/button';
 
-    let questions = [];
-    $: questions;
-    // Load the domains when the component mounts
-    onMount( async () => {
-        questions = await generateTest("Tehnici de programare Capitolul 3 Octombrie 2018 Danciu Gabriel Jurnalizare • Definitie: inregistrarea actiunilor utilizatorilor, a raspunsului aplicatiei la aceste actiuni, a exceptiilor aparute in cadrul unui scenariu si in general a starii aplicatiei in timpul utilizarii • Poate fi realizata prin simpla afisare a datelor de mai sus la consola sau intr-un fisier de tip text. • Pentru o afisare a mesajelor mai complexa se pot utiliza biblioteci care permit diferite nivele de logare: trace/debug/info/warn/error • Exemple de biblioteci pentru a formata fisierul de log: • Log4j • java.util.logging • Log4Net • Nlog • log4cplus Hands on: Adaugati in proiectul dvs cel putin trei use case –uri in care exceptiile sunt logate Unitati de testare • Definitie: o metoda de testare software prin care sunt apelate anumite functionalitati din aplicatie pentru a determina daca acestea sunt corespunzatoare • Pasi: • Se alege o biblioteca de unit testing: Junit, Jtest, Nunit • Se creeza obiecte de mock (pentru a umple partile lipsa ale aplicatiei) • Recomandari : • Testele sunt scrise inainte de a scrie codul functional • Toate clasele din aplicatie sunt testate • Mituri false: • Testele astea necesita timp, sunt foarte algomerat(a) • Codul meu este beton! N-am nevoie de teste Hands on: Adaugati in proiectul dvs cel putin trei unitati de testare a functionalitatilor de baza Bug - tracking • Definitie: o aplicatie de tip bug-tracking permite inregistrarea tuturor bug-urilor detectate in timpul dezvoltarii unui proiect. Poate fi vazuta ca o baza de date a tuturor problemelor detectate. • Aplicatii open source: • BugZilla • Pivotal • Redmine • Mituri false • Toate (100%) defectele trebuie identificate si reparate • Testerii sunt responsabili de erorile din productie • Testele automatizate vor inregistra toate erorile • Erorile sunt rele Hands on: Adaugati pentru proiectul dvs un sistem de bug-tracking. Inregistrati-va erorile, iar cand acestea sunt rezolvate, marcati-le ca atare.");
-    })
-  </script>
-  
-  <main>
-    <h1>Domains List</h1>
-  
-    {#if questions.length > 0}
-      <ul>
-        {#each questions as question}
-          <li>{question.question}</li>
-          <li>{question.options.join(", ")}</li>
-          <li>{question.answer}</li>
-        {/each}
-      </ul>
-    {:else}
-      <p>No questions found.</p>
-    {/if}
-  </main>
+	type Question = {
+		question: string;
+		options: string[];
+		answer: string;
+	};
+
+  export let questions: Question[];
+
+	let selectedAnswers: Array<string> = [];
+	let isSubmitAnswers = false;
+
+	let index = 0;
+	const questionsPerPage = 1;
+
+	$: paginatedQuestions = questions.slice(index * questionsPerPage, (index + 1) * questionsPerPage);
+
+	onMount(async () => {
+		selectedAnswers = Array(questions.length).fill('');
+	});
+
+	function registerAnswer(option: string) {
+		if (isSubmitAnswers) {
+			return;
+		}
+
+		selectedAnswers[index] = option;
+	}
+
+	function submitAnswers() {
+		let correctAnswers = 0;
+
+		questions.forEach((question, index) => {
+			if (selectedAnswers[index] === question.answer) {
+				correctAnswers += 1;
+			}
+		});
+
+		console.log(`Correct Answers: ${correctAnswers} out of ${questions.length}`);
+	}
+
+	function nextPage() {
+		isSubmitAnswers = true;
+
+		setTimeout(() => {
+			if ((index + 1) * questionsPerPage < questions.length) {
+				index += 1;
+				isSubmitAnswers = false;
+			}
+		}, 1000);
+	}
+
+	function prevPage() {
+		if (index > 0) {
+			index -= 1;
+		}
+	}
+</script>
+
+<div class="flex flex-col items-center w-full gap-y-4 mt-4">
+	<h1 class="text-3xl">⚡Flash Quizzz⚡</h1>
+
+	{#if questions.length > 0}
+		<ul class="flex flex-col items-center">
+			{#each paginatedQuestions as question}
+				<li class="text-2xl">{index + 1}. {question.question}</li>
+				<div class="flex flex-col items-center mt-4 gap-y-4">
+					{#each question.options as option, i}
+						<Button
+							class="{option === selectedAnswers[index]
+								? 'bg-muted-foreground'
+								: 'bg-foreground'} {isSubmitAnswers
+								? option === selectedAnswers[index]
+									? option === question.answer
+										? '!bg-primary'
+										: 'bg-red-300'
+									: ''
+								: ''} w-[800px] h-[80px] text-xl justify-start hover:bg-muted-foreground"
+							on:click={() => registerAnswer(option)}
+						>
+							<div class="flex flex-row items-center text-center gap-x-8">
+								<span
+									class="bg-[#EDE8E3] rounded-full w-[48px] h-[48px] flex items-center justify-center"
+								>
+									{i + 1}.
+								</span>
+								<span class="flex-wrap break-words">{option}</span>
+							</div>
+						</Button>
+					{/each}
+				</div>
+			{/each}
+		</ul>
+		<div class="flex w-[56%] justify-end text-xl">
+			{#if index == questions.length - 1}
+				<Button on:click={submitAnswers} disabled={selectedAnswers.includes('')}>Submit</Button>
+			{:else}
+				<Button
+					class="gap-x-2"
+					on:click={nextPage}
+					disabled={(index + 1) * questionsPerPage >= questions.length}
+					>Next <svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="16"
+						height="16"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						class="lucide lucide-arrow-right"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg
+					>
+				</Button>
+			{/if}
+		</div>
+	{:else}
+		<p>No questions found.</p>
+	{/if}
+</div>
