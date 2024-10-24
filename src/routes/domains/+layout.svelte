@@ -22,7 +22,7 @@
 		<div class="flex">
 			<div class="grow">
 				<slot />
-				<div class="sticky bg-zinc-800 bottom-0 flex px-8 pb-8"><Chat /> <Toolbar /></div>
+				<div class="sticky bg-zinc-800 bottom-0 flex px-8 pb-8 gap-2"><Chat /> <Toolbar /></div>
 			</div>
 			<div class="sticky top-6 bg-zinc-900 max-h-screen">Notes</div>
 		</div>
