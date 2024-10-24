@@ -1,23 +1,11 @@
 import { json } from '@sveltejs/kit';
-import type { RequestHandler } from '@sveltejs/kit';
 
-// API endpoint handler
-export const GET: RequestHandler = async ({ locals: { supabase } }) => {
-  try {
-    // Query the 'domains' table to get all domains
-    const { data, error } = await supabase
-      .from('domains')
-      .select('id, name');
+export async function GET({ locals: { supabase } }) {
+	const { data, error } = await supabase.from('domains').select('id, name');
 
-    if (error) {
-      throw error;
-    }
+	if (error) {
+		return json(error, { status: 500 });
+	}
 
-    // Return the data as JSON
-    return json(data);
-  } catch (error) {
-    // Handle any errors that occur
-    console.error('Error fetching domains:', error);
-    return json({ error: 'Failed to fetch domains' }, { status: 500 });
-  }
-};
+	return json(data);
+}

@@ -1,34 +1,23 @@
 import { json } from '@sveltejs/kit';
-import type { RequestHandler } from '@sveltejs/kit';
 
-// API endpoint handler
-export const GET: RequestHandler = async ({ locals: { supabase }, url }) => {
-  const domainId = url.searchParams.get('domainId');
-  const subdomainId = url.searchParams.get('subdomainId');
-  const courseId = url.searchParams.get('courseId');
+export async function GET({ locals: { supabase }, request }) {
+	const { domainId, subdomainId, courseId } = await request.json();
 
-  try {
-    let query = supabase.from('threads').select('id, name');
+	let query = supabase.from('threads').select('id, name');
 
-    if (domainId) {
-      query = query.eq('domain_id', domainId);
-    } else if (subdomainId) {
-      query = query.eq('subdomain_id', subdomainId);
-    } else if (courseId) {
-      query = query.eq('course_id', courseId);
-    }
+	if (domainId) {
+		query = query.eq('domain_id', domainId);
+	} else if (subdomainId) {
+		query = query.eq('subdomain_id', subdomainId);
+	} else if (courseId) {
+		query = query.eq('course_id', courseId);
+	}
 
-    const { data, error } = await query;
+	const { data, error } = await query;
 
-    if (error) {
-      throw error;
-    }
+	if (error) {
+		return json(error, { status: 500 });
+	}
 
-    // Return the data as JSON
-    return json(data);
-  } catch (error) {
-    // Handle any errors that occur
-    console.error('Error fetching threads:', error);
-    return json({ error: 'Failed to fetch threads' }, { status: 500 });
-  }
-};
+	return json(data);
+}

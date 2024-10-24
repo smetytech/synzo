@@ -2,7 +2,7 @@ import { json } from '@sveltejs/kit';
 
 export async function GET({ locals: { supabase }, params }) {
 	const { data, error } = await supabase
-		.from('threads')
+		.from('subdomains')
 		.select('id, name')
 		.eq('id', params.id)
 		.single();

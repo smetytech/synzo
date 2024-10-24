@@ -1,11 +1,10 @@
 export interface IThreadMessage {
 	id: string;
 	message: string;
-	thread_id: string;
+	created_at: string;
 	user: {
 		display_name: string;
-	}
-	created_at: string;
+	};
 }
 
 export interface IThread {
