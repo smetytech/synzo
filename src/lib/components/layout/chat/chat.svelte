@@ -2,6 +2,7 @@
 	import { Textarea } from '$lib/components/ui/textarea/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { Bot, Send } from 'lucide-svelte';
+	export let selectedText: string
 </script>
 
 <div>
@@ -11,7 +12,7 @@
 		>
 			<Textarea
 				placeholder="Take notes..."
-				class="resize-none flex-1 bg-[#383A40] border-none focus:border-none w-[790px] min-h-[40px]"
+				class="resize-none flex-1 bg-[#383A40] border-none focus:border-none w-[575px] min-h-[40px]"
 			/>
 
 			<div class="flex items-center transition-colors duration-200">

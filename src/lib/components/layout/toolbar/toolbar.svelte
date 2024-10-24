@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button/index.js';
-	import { ImagePlus, NotepadText, Speech, Highlighter } from 'lucide-svelte';
+	import { ImagePlus, ListCheck, Speech, Highlighter } from 'lucide-svelte';
+	export let selectedText: string
 </script>
 
 <div class="w-1/3">
@@ -18,7 +19,7 @@
 	>
 	<Button
 		class="h-[55px] bg-[#383A40] border-none text-[#FFFFFF] hover:bg-[#BCE784] hover:text-[#383A40] focus:border-none mx-2"
-		><NotepadText class="h-8 w-6" /></Button
+		><ListCheck class="h-8 w-6" /></Button
 	>
 </div>
 
