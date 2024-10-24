@@ -30,8 +30,8 @@
 	});
 </script>
 
-<nav class="p-4 bg-background sticky top-0 h-screen flex space-y-4">
-	<div class="overflow-y-auto flex flex-col gap-y-4">
+<nav class="bg-background sticky top-0 h-screen flex space-y-4">
+	<div class="p-4 overflow-y-auto flex flex-col gap-y-4">
 		<Tooltip.Root openDelay={0}>
 			<Tooltip.Trigger asChild let:builder>
 				<Button
@@ -71,7 +71,7 @@
 		{#if isLoadingDomains}
 			<Tooltip.Root openDelay={0}>
 				<Tooltip.Trigger class="w-14 h-14 flex shrink-0 items-center justify-center">
-					<Loader class="animate-spin" />
+					<Loader class="animate-spin text-muted-foreground" />
 				</Tooltip.Trigger>
 				<Tooltip.Content side="right" sideOffset={8}>Loading domains...</Tooltip.Content>
 			</Tooltip.Root>
@@ -80,7 +80,7 @@
 				<Tooltip.Root openDelay={0}>
 					<Tooltip.Trigger asChild let:builder>
 						<Button
-							class="{$page.route.id === '/domains/[id]' && $page.params.id === domain.id
+							class="{$page.params.domainId === domain.id
 								? 'text-[#0072C4] rounded-2xl bg-foreground'
 								: 'rounded-[2rem] bg-muted text-primary'} h-14 w-14 shrink-0 hover:rounded-2xl hover:bg-foreground hover:text-[#0072C4] transition-all"
 							variant="ghost"
