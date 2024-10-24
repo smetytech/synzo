@@ -1,4 +1,3 @@
-// src/routes/upload/+server.ts
 import type { RequestHandler } from '@sveltejs/kit';
 import { json } from '@sveltejs/kit';
 import { createRequire } from 'module';
@@ -59,3 +58,4 @@ export const POST: RequestHandler = async ({ locals: { supabase }, request }) =>
     return json({ error: 'Failed to parse PDF' }, { status: 500 });
   }
 };
+
