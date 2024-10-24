@@ -10,21 +10,20 @@ export const POST: RequestHandler = async ({ locals: { supabase }, request }) =>
   const subdomain_id = formData.get('subdomain_id') as string;
 
   if (!file) {
-    return json({ error: 'No file uploaded' }, { status: 400 });
+    return json({ toast: 'No file uploaded' }, { status: 400 });
   }
   if (!subdomain_id) {
-    return json({ error: 'No subdomain selected' }, { status: 400 });
+    return json({ toast: 'No subdomain selected' }, { status: 400 });
   }
 
-  // Validate that the subdomain exists
   const { data: subdomainData, error: subdomainError } = await supabase
     .from('subdomains')
     .select('id')
     .eq('id', subdomain_id)
     .single();
 
-  if (subdomainError || !subdomainData) {
-    return json({ error: 'Invalid subdomain selected' }, { status: 400 });
+  if (subdomainError) {
+	return json({toast: subdomainError}, { status: 500 });
   }
 
   try {
@@ -34,7 +33,7 @@ export const POST: RequestHandler = async ({ locals: { supabase }, request }) =>
     const data = await pdf(buffer);
 
     if (!data.text || !data.info.Title || !data.info.Author || !data.info.Keywords) {
-      return json({ error: 'File not valid' }, { status: 400 });
+      return json({ toast: 'File not valid' }, { status: 400 });
     }
 
     const { data: course, error } = await supabase.from('courses').insert({
@@ -46,16 +45,14 @@ export const POST: RequestHandler = async ({ locals: { supabase }, request }) =>
     });
 
     if (error) {
-      console.error('Error inserting course:', error);
-      return json({ error: 'Failed to create course: ' + error.message }, { status: 500 });
+      return json({ toast: error }, { status: 500 });
     }
 
     return json({
       text: data.text
     });
   } catch (error) {
-    console.error('Error parsing PDF:', error);
-    return json({ error: 'Failed to parse PDF' }, { status: 500 });
+    return json({ toast: error }, { status: 500 });
   }
 };
 
