@@ -42,7 +42,7 @@
 				</div>
 				<!-- Pass selectedText to Chat and Toolbar components -->
 				<div class="sticky bg-zinc-800 bottom-0 flex px-8 pb-8 gap-2">
-					<Chat {selectedText} />
+					<Chat selectedText={selectedText} courseId={course.id} />
 					<Toolbar {selectedText} />
 				</div>
 			</div>
