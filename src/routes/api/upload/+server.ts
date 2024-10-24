@@ -5,54 +5,39 @@ const require = createRequire(import.meta.url);
 const pdf = require('pdf-parse');
 
 export const POST: RequestHandler = async ({ locals: { supabase }, request }) => {
-  const formData = await request.formData();
-  const file = formData.get('pdf') as File;
-  const subdomain_id = formData.get('subdomain_id') as string;
+	const formData = await request.formData();
+	const file = formData.get('pdf') as File;
+	const subdomain_id = formData.get('subdomain_id') as string;
 
-  if (!file) {
-    return json({ toast: 'No file uploaded' }, { status: 400 });
-  }
-  if (!subdomain_id) {
-    return json({ toast: 'No subdomain selected' }, { status: 400 });
-  }
+	if (!file) {
+		return json({ toast: 'No file uploaded' }, { status: 400 });
+	}
+	if (!subdomain_id) {
+		return json({ toast: 'No subdomain selected' }, { status: 400 });
+	}
 
-  const { data: subdomainData, error: subdomainError } = await supabase
-    .from('subdomains')
-    .select('id')
-    .eq('id', subdomain_id)
-    .single();
+	const arrayBuffer = await file.arrayBuffer();
+	const buffer = Buffer.from(arrayBuffer);
 
-  if (subdomainError) {
-	return json({toast: subdomainError}, { status: 500 });
-  }
+	const data = await pdf(buffer);
 
-  try {
-    const arrayBuffer = await file.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
+	if (!data.text || !data.info.Title || !data.info.Author || !data.info.Keywords) {
+		return json({ toast: 'File not valid' }, { status: 400 });
+	}
 
-    const data = await pdf(buffer);
+	const { data: course, error } = await supabase.from('courses').insert({
+		title: data.info.Title,
+		author: data.info.Author,
+		content: data.text,
+		created_at: new Date(),
+		subdomain_id: subdomain_id
+	});
 
-    if (!data.text || !data.info.Title || !data.info.Author || !data.info.Keywords) {
-      return json({ toast: 'File not valid' }, { status: 400 });
-    }
+	if (error) {
+		return json({ toast: error }, { status: 500 });
+	}
 
-    const { data: course, error } = await supabase.from('courses').insert({
-      title: data.info.Title,
-      author: data.info.Author,
-      content: data.text,
-      created_at: new Date(),
-      subdomain_id: subdomain_id
-    });
-
-    if (error) {
-      return json({ toast: error }, { status: 500 });
-    }
-
-    return json({
-      text: data.text
-    });
-  } catch (error) {
-    return json({ toast: error }, { status: 500 });
-  }
+	return json({
+		success: true
+	});
 };
-
