@@ -1,6 +1,6 @@
-<script lang="ts">
-	import NoteInput from 'src/lib/components/layout/notes/NoteInput.svelte';
-	import NotesList from 'src/lib/components/layout/notes/NotesList.svelte';
+<!-- <script lang="ts">
+	import Chat from 'src/lib/components/layout/notes/Chat.svelte';
+	import NotesList from 'src/lib/components/layout/notes/notes.svelte';
 	import { onMount } from 'svelte';
 
 	interface Note {
@@ -49,14 +49,14 @@
 </script>
 
 <div class="flex gap-6 w-full max-w-[1400px] mx-auto p-6">
-	<!-- Main content on the left -->
+
 	<div class="flex-1">
 		<div class="bg-zinc-800 rounded-lg shadow-md overflow-hidden mb-4">
 			<div class="p-4 border-b border-zinc-700">
 				<h3 class="text-lg font-semibold text-zinc-300">Select Text Below</h3>
 			</div>
 			<div class="p-4">
-				<!-- Bind the paragraph element to get a reference -->
+
 				<p class="text-zinc-400" bind:this={textParagraph}>
 					Cybersecurity is the practice of protecting systems, networks, and data from digital
 					attacks. It involves implementing measures to defend against threats like hacking,
@@ -69,25 +69,22 @@
 		</div>
 	</div>
 
-	<!-- Notes panel on the right -->
 	<div class="w-[400px]">
-		{#if selectedText}
-			<div class="space-y-4 pb-8">
-				<NoteInput {selectedText} on:addNote={handleAddNote} />
-			</div>
-		{/if}
+		<div class="space-y-4 pb-8">
+			<Chat {selectedText} on:addNote={handleAddNote} />
+		</div>
 		<NotesList bind:notes />
 	</div>
 </div>
 
 <style>
-    ::selection {
-	background: #bce784;
-    color: black;
-}
+	::selection {
+		background: #bce784;
+		color: black;
+	}
 
-::-moz-selection {
-	background: #bce784;
-    color: black;
-}
-</style>
+	::-moz-selection {
+		background: #bce784;
+		color: black;
+	}
+</style> -->

@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { LeftSidemenu } from '$lib/components/layout/left-sidemenu';
+	import { Chat } from '$lib/components/layout/chat';
+	import { Toolbar } from '$lib/components/layout/toolbar';
 
 	$: ({ domain, subdomain, course, user } = $page.data);
 </script>
@@ -20,7 +22,7 @@
 		<div class="flex">
 			<div class="grow">
 				<slot />
-				<div class="sticky bg-zinc-800 bottom-0">Toolbar</div>
+				<div class="sticky bg-zinc-800 bottom-0 flex px-8 pb-8"><Chat /> <Toolbar /></div>
 			</div>
 			<div class="sticky top-6 bg-zinc-900 max-h-screen">Notes</div>
 		</div>
