@@ -1,8 +1,11 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import { ModeWatcher, setMode } from 'mode-watcher';
 	import { Toaster } from '$lib/components/ui/sonner';
 	import { DomainBar } from '$lib/components/layout/domain-bar';
 	import 'src/app.css';
+
+	$: isAuthRoute = $page.route.id?.startsWith('/auth');
 
 	setMode('dark');
 </script>
@@ -10,7 +13,11 @@
 <ModeWatcher />
 <Toaster closeButton richColors />
 
-<div class="flex min-h-screen">
-	<DomainBar />
+{#if isAuthRoute}
 	<slot />
-</div>
+{:else}
+	<div class="flex min-h-screen">
+		<DomainBar />
+		<slot />
+	</div>
+{/if}
