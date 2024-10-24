@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 	import { ModeWatcher, setMode } from 'mode-watcher';
 	import { Toaster } from '$lib/components/ui/sonner';
-	import { DomainBar } from '$lib/components/layout/domain-bar';
+	import { DomainSidebar } from 'src/lib/components/layout/domain-sidebar';
 
 	import 'src/app.css';
 
@@ -18,8 +18,7 @@
 	<slot />
 {:else}
 	<div class="flex bg-zinc-800">
-		<DomainBar />
-		
+		<DomainSidebar />
 		<slot />
 	</div>
 {/if}
