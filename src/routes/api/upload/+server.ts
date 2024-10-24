@@ -21,7 +21,7 @@ export const POST: RequestHandler = async ({ locals: { supabase }, request }) =>
 
 	const data = await pdf(buffer);
 
-	if (!data.text || !data.info.Title || !data.info.Author || !data.info.Keywords) {
+	if (!data.text || !data.info.Title || !data.info.Author) {
 		return json({ toast: 'File not valid' }, { status: 400 });
 	}
 
