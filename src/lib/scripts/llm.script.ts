@@ -2,6 +2,7 @@ import { PRIVATE_GROQ_API_KEY } from '$env/static/private';
 import Groq from 'groq-sdk';
 
 const MODEL = 'llama-3.1-70b-versatile';
+const SUMMARY_MODEL = 'llama-3.1-8b-instant';
 const TEMPERATURE = 0;
 const TEST_GENERATION_PROMPT = `
 You're an expert teacher that needs to generate a test for a student.
@@ -41,6 +42,20 @@ Provide the response as text only, not markdown.
 This is the content:
 `;
 
+const SUMMARY_GENERATION_PROMPT = `
+You're an expert teacher that needs to generate a summary of the resuts of a generated test, of a student.
+You will be given the content of the lesson and the questions and answers of the test, and the wrong answer of the user.
+You have to generate a 50 words short response to tell the student on what part of the curriculum they need to focus more.
+Dont forget to only generate the 50 word short response, with nothing else additionally.
+Please generate it in a MARKDOWN format.
+Please do not specify that this response is in markdown format, output only the area of focus for the user.
+Here is the content of the lesson:
+`
+
+const SUMMARY_USER_GENERATION_PROMPT = `
+Here are the questions and answers of the test, along with the wrong answer of the student:
+`
+
 const groq = new Groq({ apiKey: PRIVATE_GROQ_API_KEY });
 
 export async function generateTest(prompt: string) {
@@ -76,6 +91,20 @@ export async function generateNote(prompt: string) {
 		messages: [
 			{ role: 'system', content: NOTE_GENERATION_PROMPT },
 			{ role: 'user', content: prompt }
+		],
+		stream: false,
+		temperature: TEMPERATURE
+	});
+
+	return rephrasingResponse.choices[0].message.content;
+}
+
+export async function generateSummary(content: string, prompt: string) {
+	const rephrasingResponse = await groq.chat.completions.create({
+		model: SUMMARY_MODEL,
+		messages: [
+			{ role: 'system', content: SUMMARY_GENERATION_PROMPT + content },
+			{ role: 'user', content: SUMMARY_USER_GENERATION_PROMPT + prompt }
 		],
 		stream: false,
 		temperature: TEMPERATURE

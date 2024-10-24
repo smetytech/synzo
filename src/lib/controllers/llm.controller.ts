@@ -43,3 +43,18 @@ export async function generateNote(content: string){
 	}
     return data;
 };
+
+export async function generateSummary(content: string, prompt: string){
+    const url = `/api/llm/summary`;
+	const method = 'POST';
+	const headers = { 'Content-Type': 'application/json' };
+    const body = JSON.stringify({ content, prompt });
+
+	const response = await fetch(url, { method, headers, body});
+	const data = await response.text();
+
+	if (!response.ok) {
+		throw data;
+	}
+    return data;
+};

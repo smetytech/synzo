@@ -19,7 +19,7 @@
 {:else}
 	<div class="flex bg-zinc-800">
 		<DomainBar />
-
+		
 		<slot />
 	</div>
 {/if}
