@@ -9,79 +9,93 @@
 	let { subdomains } = data;
 
 	let selectedSubdomainId: string = '';
-
+	let selectedSubdomain = undefined;
 	let file: File | null = null;
 	let extractedText = '';
 
+	$: selectedSubdomain = selectedSubdomainId
+	  ? {
+		  label: subdomains.find((s) => s.id === selectedSubdomainId)?.name || '',
+		  value: selectedSubdomainId
+		}
+	  : undefined;
+
 	const uploadPDF = async () => {
-		if (!file) {
-			alert('Please select a PDF file.');
-			return;
-		}
-		if (!selectedSubdomainId) {
-			alert('Please select a subdomain.');
-			return;
-		}
+	  if (!file) {
+		alert('Please select a PDF file.');
+		return;
+	  }
+	  if (!selectedSubdomainId) {
+		alert('Please select a subdomain.');
+		return;
+	  }
 
-		const formData = new FormData();
-		formData.append('pdf', file);
-		formData.append('subdomain_id', selectedSubdomainId);
+	  const formData = new FormData();
+	  formData.append('pdf', file);
+	  formData.append('subdomain_id', selectedSubdomainId);
 
-		const response = await fetch('/api/upload', {
-			method: 'POST',
-			body: formData
-		});
+	  const response = await fetch('/api/upload', {
+		method: 'POST',
+		body: formData
+	  });
 
-		const data = await response.json();
+	  const data = await response.json();
 
-		if (data.error) {
-			alert(`Error: ${data.error}`);
-		} else {
-			extractedText = data.text;
-		}
+	  if (data.error) {
+		alert(`Error: ${data.error}`);
+	  } else {
+		extractedText = data.text;
+		alert('File uploaded successfully!');
+	  }
 	};
-</script>
+  </script>
 
-<div class="mx-auto max-w-sm space-y-4 px-4 py-6">
+  <div class="mx-auto max-w-sm space-y-4 px-4 py-6">
 	<div class="flex items-center space-x-2">
-		<Select.Root portal={null}>
-			<Select.Trigger
-				class="w-full h-10 px-4 py-2 rounded-md border border-input ring-offset-background focus-visible:ring-ring"
-			>
-				<Select.Value placeholder="Select a subdomain" />
-			</Select.Trigger>
-			<Select.Content class="max-h-[200px] overflow-auto">
-				<Select.Group>
-					<Select.Label>Subdomains</Select.Label>
-					{#each subdomains as subdomain}
-						<Select.Item value={subdomain.id} label={subdomain.name}>
-							{subdomain.name}
-						</Select.Item>
-					{/each}
-				</Select.Group>
-			</Select.Content>
-			<Select.Input name="selectedSubdomainId" bind:value={selectedSubdomainId} />
-		</Select.Root>
+	  <Select.Root
+		selected={selectedSubdomain}
+		onSelectedChange={(v) => {
+		  selectedSubdomainId = v.value;
+		}}
+		portal={null}
+	  >
+		<Select.Trigger
+		  class="w-full h-10 px-4 py-2 rounded-md border border-input ring-offset-background focus-visible:ring-ring"
+		>
+		  <Select.Value placeholder="Select a subdomain" />
+		</Select.Trigger>
+		<Select.Content class="max-h-[200px] overflow-auto">
+		  <Select.Group>
+			<Select.Label>Subdomains</Select.Label>
+			{#each subdomains as subdomain}
+			  <Select.Item value={subdomain.id} label={subdomain.name}>
+				{subdomain.name}
+			  </Select.Item>
+			{/each}
+		  </Select.Group>
+		</Select.Content>
+	  </Select.Root>
+	  <input type="hidden" bind:value={selectedSubdomainId} name="subdomain_id" />
 	</div>
 
 	<div class="grid w-full items-center gap-1.5">
-		<Label for="pdf" class="text-dark">Course</Label>
-		<Input
-			id="pdf"
-			type="file"
-			accept="application/pdf"
-			on:change={(e: Event) => {
-				const target = e.target as HTMLInputElement;
-				file = target.files ? target.files[0] : null;
-			}}
-			class="h-10 px-4 py-2 rounded-md border border-input ring-offset-background focus-visible:ring-ring"
-		/>
+	  <Label for="pdf" class="text-dark">Course</Label>
+	  <Input
+		id="pdf"
+		type="file"
+		accept="application/pdf"
+		on:change={(e: Event) => {
+		  const target = e.target as HTMLInputElement;
+		  file = target.files ? target.files[0] : null;
+		}}
+		class="h-10 px-4 py-2 rounded-md border border-input ring-offset-background focus-visible:ring-ring"
+	  />
 	</div>
 
 	<Button
-		class="h-10 w-full text-dark px-4 py-2 rounded-md  ring-offset-background focus-visible:ring-ring"
-		on:click={uploadPDF}
+	  class="h-10 w-full text-black px-4 py-2 rounded-md ring-offset-background focus-visible:ring-ring"
+	  on:click={uploadPDF}
 	>
-		Upload course
+	  Upload course
 	</Button>
-</div>
+  </div>
