@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { LeftSidemenu } from '$lib/components/layout/left-sidemenu';
+	import { CourseSidemenu } from '$lib/components/layout/course-sidemenu';
+	import { Header } from '$lib/components/layout/header';
+	import { NoteSidebar } from '$lib/components/layout/note-sidebar';
 	import { Chat } from '$lib/components/layout/chat';
 	import { Toolbar } from '$lib/components/layout/toolbar';
 
@@ -9,7 +11,7 @@
 
 <div class="flex grow">
 	{#if domain && user}
-		<LeftSidemenu
+		<CourseSidemenu
 			selectedDomain={domain}
 			selectedSubdomain={subdomain}
 			selectedCourse={course}
@@ -17,14 +19,20 @@
 		/>
 	{/if}
 
-	<div class="grow">
-		<div class="sticky top-0 bg-zinc-800">Header</div>
-		<div class="flex">
-			<div class="grow">
-				<slot />
+	<div class="grow flex flex-col">
+		<Header selectedCourse={course} />
+
+		<div class="flex grow">
+			<div class="flex flex-col grow">
+				<div class="grow">
+					<slot />
+				</div>
 				<div class="sticky bg-zinc-800 bottom-0 flex px-8 pb-8 gap-2"><Chat /> <Toolbar /></div>
 			</div>
-			<div class="sticky top-6 bg-zinc-900 max-h-screen">Notes</div>
+
+			{#if course}
+				<NoteSidebar selectedCourse={course} />
+			{/if}
 		</div>
 	</div>
 </div>

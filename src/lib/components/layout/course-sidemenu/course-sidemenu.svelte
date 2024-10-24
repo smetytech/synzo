@@ -91,7 +91,7 @@
 
 <nav class="bg-zinc-900 sticky top-0 h-screen flex flex-col w-[21.25rem]">
 	<div class="p-5 shadow-lg">
-		<span class="text-lg font-semibold">{selectedDomain.name}</span>
+		<span class="text-lg block leading-10 font-semibold">{selectedDomain.name}</span>
 	</div>
 
 	<div class="p-5 flex gap-y-1 flex-col">
@@ -133,7 +133,7 @@
 						variant="ghost"
 						href={`/domains/${selectedDomain.id}/subdomains/${selectedSubdomain.id}/courses/${course.id}`}
 					>
-						<Hash class="shrink-0 h-5 w-5" />
+						<Hash class="text-muted-foreground shrink-0 h-5 w-5" />
 						<span class="truncate">{course.title}</span>
 					</Button>
 				{/each}
