@@ -1,7 +1,14 @@
 import type { IDomain } from '$lib/interfaces/domain.interface';
 
-export async function getDomains(): Promise<Array<IDomain>> {
-	const url = '/api/domains';
+export async function load({ fetch, params }) {
+	const domain = await getDomain(params.id, fetch);
+
+	return { domain };
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+async function getDomain(id: string, fetch: any): Promise<IDomain> {
+	const url = `/api/domains/${id}`;
 	const method = 'GET';
 	const headers = { 'Content-Type': 'application/json' };
 
