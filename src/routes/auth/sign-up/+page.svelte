@@ -58,7 +58,7 @@
 </script>
 
 <svelte:head>
-	<title>Register | Synzo</title>
+	<title>Register | Synzo.</title>
 </svelte:head>
 
 <div class="space-y-6 grow">

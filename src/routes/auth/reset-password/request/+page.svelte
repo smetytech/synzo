@@ -52,7 +52,7 @@
 </script>
 
 <svelte:head>
-	<title>Reset password | Synzo</title>
+	<title>Reset password | Synzo.</title>
 </svelte:head>
 
 <div class="space-y-6 grow">

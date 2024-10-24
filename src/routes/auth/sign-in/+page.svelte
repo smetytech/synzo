@@ -53,7 +53,7 @@
 </script>
 
 <svelte:head>
-	<title>Authenticate | Synzo</title>
+	<title>Authenticate | Synzo.</title>
 </svelte:head>
 
 <div class="space-y-6 grow">
