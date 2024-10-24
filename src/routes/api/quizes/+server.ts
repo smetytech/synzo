@@ -1,7 +1,8 @@
 import { json } from '@sveltejs/kit';
 
-export async function GET({ locals: { supabase }, params }) {
-	const { userId, courseId } = params;
+export async function GET({ locals: { supabase }, url }) {
+	const userId = url.searchParams.get('userId');
+	const courseId = url.searchParams.get('courseId');
 
 	if (!userId) {
 		return json('User ID is required.', { status: 400 });
@@ -13,7 +14,7 @@ export async function GET({ locals: { supabase }, params }) {
 
 	const { data, error } = await supabase
 		.from('quizes')
-		.select('id, user_id, course_id, question')
+		.select('id, user_id, course_id')
 		.eq('user_id', userId)
 		.eq('course_id', courseId);
 
