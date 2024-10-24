@@ -2,6 +2,7 @@
 	import { page } from '$app/stores';
 	import { CourseSidemenu } from '$lib/components/layout/course-sidemenu';
 	import { Header } from '$lib/components/layout/header';
+	import { NoteSidebar } from '$lib/components/layout/note-sidebar';
 
 	$: ({ domain, subdomain, course, user } = $page.data);
 </script>
@@ -26,7 +27,10 @@
 				</div>
 				<div class="sticky bg-zinc-800 bottom-0">Toolbar</div>
 			</div>
-			<div class="sticky top-20 max-h-[calc(100dvh-5rem)] bg-zinc-900">Notes</div>
+
+			{#if course}
+				<NoteSidebar selectedCourse={course} />
+			{/if}
 		</div>
 	</div>
 </div>
