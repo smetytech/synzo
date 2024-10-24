@@ -1,4 +1,4 @@
-export function speak(message: string) {
-    let speech = new SpeechSynthesisUtterance(message);
+export function textToSpeech(text: string) {
+    let speech = new SpeechSynthesisUtterance(text);
     window.speechSynthesis.speak(speech);
 }
