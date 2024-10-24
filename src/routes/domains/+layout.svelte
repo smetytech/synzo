@@ -3,6 +3,7 @@
 	import { CourseSidemenu } from '$lib/components/layout/course-sidemenu';
 	import { Header } from '$lib/components/layout/header';
 	import { NoteSidebar } from '$lib/components/layout/note-sidebar';
+	import { GenerateTest } from '$lib/components/layout/test';
 
 	$: ({ domain, subdomain, course, user } = $page.data);
 </script>
@@ -25,7 +26,10 @@
 				<div class="grow">
 					<slot />
 				</div>
-				<div class="sticky bg-zinc-800 bottom-0">Toolbar</div>
+				<div class="sticky bg-zinc-800 bottom-0">
+					Toolbar
+					<GenerateTest course={$page.data.course}></GenerateTest>
+				</div>
 			</div>
 
 			{#if course}
