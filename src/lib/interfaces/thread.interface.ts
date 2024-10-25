@@ -2,9 +2,8 @@ export interface IThreadMessage {
 	id: string;
 	message: string;
 	created_at: string;
-	user: {
-		display_name: string;
-	};
+	user_id: string;
+	user_name: string
 }
 
 export interface IThread {
