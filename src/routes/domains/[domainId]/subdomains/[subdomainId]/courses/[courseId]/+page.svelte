@@ -50,12 +50,12 @@
 </div>
 
 <style>
-	::global(::selection) {
+	::selection {
 		background: #bce784;
 		color: black;
 	}
 
-	::global(::-moz-selection) {
+	::-moz-selection{
 		background: #bce784;
 		color: black;
 	}
