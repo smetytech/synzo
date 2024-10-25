@@ -1,17 +1,9 @@
 import { json } from '@sveltejs/kit';
 
-export async function GET({ locals: { supabase }, request }) {
-	const { domainId, subdomainId, courseId } = await request.json();
-
-	let query = supabase.from('threads').select('id, name');
-
-	if (domainId) {
-		query = query.eq('domain_id', domainId);
-	} else if (subdomainId) {
-		query = query.eq('subdomain_id', subdomainId);
-	} else if (courseId) {
-		query = query.eq('course_id', courseId);
-	}
+export async function GET({ locals: { supabase, user } }) {
+	if (!user) return json({ error: 'Unauthorized' }, { status: 401 });
+	
+	let query = supabase.from('threads').select('id, name').eq("user_id", user.id);
 
 	const { data, error } = await query;
 

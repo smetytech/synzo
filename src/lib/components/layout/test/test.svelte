@@ -31,7 +31,12 @@
 		<Quiz questions={[]} courseContent={course.content}></Quiz>
 	{:else}
 		{#if questionair}
-			<Quiz questions={questionair.quizInfoData} courseContent={course.content}></Quiz>
+			<div class="flex flex-col justify-items-center items-center">
+				<Button class="w-[100px] h-[30px] rounded-mg !bg-[#383A40] justify-items-end text-color-white" on:click={() => questionair = null}>
+					Close Quiz
+				</Button>
+				<Quiz questions={questionair.quizInfoData} courseContent={course.content}></Quiz>
+			</div>
 		{/if}
 	{/if}
 </div>

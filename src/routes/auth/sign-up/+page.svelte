@@ -37,7 +37,7 @@
 
 		try {
 			await signUp(values.email, values.password, values.name);
-			await goto('/');
+			await goto('/quiz');
 			invalidate('supabase:auth');
 		} catch (error) {
 			handleError(error);

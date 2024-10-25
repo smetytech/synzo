@@ -40,7 +40,7 @@
 						: 'rounded-[2rem] bg-muted'} h-14 w-14 shrink-0 hover:rounded-2xl hover:bg-foreground transition-all"
 					variant="ghost"
 					size="icon"
-					href="/"
+					href="/main"
 					builders={[builder]}
 				>
 					<img class="h-8 w-8" src="/assets/icons/synzo.svg" alt="Synzo." />
